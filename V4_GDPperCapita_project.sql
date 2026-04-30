@@ -714,6 +714,80 @@ FROM lagged
 ORDER BY country_a, country_b, year;
 
 
+-- + GDP per capita rast/pokles pre každu krajinu
+
+WITH base AS (
+    SELECT 
+        country,
+        year,
+        ROUND((gdp::numeric / population::numeric), 2) AS gdp_pc,
+        LAG(ROUND((gdp::numeric / population::numeric), 2)) 
+            OVER (PARTITION BY country ORDER BY year) AS prev_gdp_pc
+    FROM economies
+    WHERE country IN ('Poland', 'Czech Republic', 'Slovakia', 'Hungary')
+      AND year > 2000
+),
+pairs AS (
+    SELECT 
+        a.year,
+        a.country AS country_a,
+        b.country AS country_b,
+        a.gdp_pc AS gdp_pc_a,
+        b.gdp_pc AS gdp_pc_b,
+        a.prev_gdp_pc AS prev_gdp_pc_a,
+        b.prev_gdp_pc AS prev_gdp_pc_b,
+        ROUND((a.gdp_pc - b.gdp_pc)::numeric, 2) AS difference
+    FROM base a
+    JOIN base b 
+        ON a.year = b.year
+       AND a.country <> b.country
+),
+filtered AS (
+    SELECT *
+    FROM pairs
+    WHERE country_a < country_b
+),
+lagged AS (
+    SELECT
+        *,
+        LAG(difference) OVER (
+            PARTITION BY country_a, country_b 
+            ORDER BY year
+        ) AS previous_year
+    FROM filtered
+)
+SELECT
+    year,
+    country_a,
+    country_b,
+    gdp_pc_a,
+    gdp_pc_b,
+    -- NEW: GDP per capita growth for each country
+    ROUND(
+        (gdp_pc_a - prev_gdp_pc_a) / NULLIF(prev_gdp_pc_a, 0) * 100,
+        2
+    ) AS gdp_pc_growth_a,
+    ROUND(
+        (gdp_pc_b - prev_gdp_pc_b) / NULLIF(prev_gdp_pc_b, 0) * 100,
+        2
+    ) AS gdp_pc_growth_b,
+    difference,
+    previous_year,
+    ROUND((difference - previous_year)::numeric, 0) AS clean_diff,
+    ROUND(
+        (difference - previous_year) 
+        / NULLIF(previous_year, 0) * 100,
+        2
+    ) AS percent_diff,
+    -- Ratio Index
+    ROUND((gdp_pc_a / NULLIF(gdp_pc_b, 0))::numeric, 2) AS ratio_index,
+    -- IRC
+    ROUND(
+        (ABS(gdp_pc_a - gdp_pc_b) / NULLIF(GREATEST(gdp_pc_a, gdp_pc_b), 0))::numeric,
+        3
+    ) AS irc
+FROM lagged
+ORDER BY country_a, country_b, year;
 
 
 
