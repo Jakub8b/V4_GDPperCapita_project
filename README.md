@@ -145,8 +145,6 @@ This analysis helps answer questions like:
 
 ## 📄 License
 
-[Add your license here - e.g., MIT, GPL, CC0]
-
 ---
 
 <details>
