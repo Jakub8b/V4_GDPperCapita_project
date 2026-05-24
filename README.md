@@ -59,11 +59,11 @@ Calculates:
 ### 4. **Convergence Metrics**
 Includes advanced analysis:
 
-| Metric | Description |
-|--------|-------------|
-| **Ratio Index** | Proportion between GDP per capita values (A/B) |
-| **IRC** | Index of Relative Convergence (0-1 scale, lower = more convergent) |
-| **Growth Rate** | Annual GDP per capita growth for each country |
+| Metric | Description |Example|
+|--------|-------------|-------------|
+| **Ratio Index** | Proportion between GDP per capita values (A/B) | 1.00 = equal, >1 = country A has greater GDP per capita|
+| **IRC** | Index of Relative Convergence (0-1 scale, lower = more convergent) | 0 = equal , 1 = max divergence |
+| **Growth Rate** | Annual GDP per capita growth for each country | pozitive value = growth , negative value = decrease |
 
 ---
 
