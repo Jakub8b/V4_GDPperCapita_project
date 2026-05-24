@@ -28,7 +28,7 @@ This project provides a comprehensive **GDP per capita comparison** between pair
 V4_GDPperCapita_project/
 ├── V4_GDPperCapita_project.sql  # Main SQL queries and analysis
 ├── README.md                     # This file
-└── [data files]                  # Source data (if included)
+└── [data files]                  # Source data
 ```
 
 ---
