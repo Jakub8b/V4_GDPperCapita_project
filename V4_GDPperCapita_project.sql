@@ -25,7 +25,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Poland', 'Czech Republic')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -39,9 +39,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Czech Republic'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -60,7 +60,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 
@@ -75,7 +75,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Poland', 'Slovakia')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -89,9 +89,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Slovakia'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -110,7 +110,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 -- HU a PL
@@ -123,7 +123,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Poland', 'Hungary')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -137,9 +137,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Hungary'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -158,7 +158,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 
@@ -172,7 +172,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Czech Republic', 'Hungary')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -186,9 +186,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Czech Republic'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -207,7 +207,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 
@@ -221,7 +221,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Czech Republic', 'Slovakia')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -235,9 +235,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Czech Republic'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -256,7 +256,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 -- HU a SK
@@ -269,7 +269,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Hungary', 'Slovakia')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -283,9 +283,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Slovakia'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -304,7 +304,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 -- UNION ALL
@@ -321,7 +321,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Poland', 'Czech Republic')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -335,9 +335,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Czech Republic'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -356,7 +356,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 union all
 WITH gdp_cte AS (
@@ -367,7 +367,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Poland', 'Slovakia')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -381,9 +381,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Slovakia'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -402,7 +402,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 union all
 WITH gdp_cte AS (
@@ -413,7 +413,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Poland', 'Hungary')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -427,9 +427,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Hungary'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -448,7 +448,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 union all
 WITH gdp_cte AS (
@@ -459,7 +459,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Czech Republic', 'Hungary')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -473,9 +473,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Czech Republic'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -494,7 +494,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 union all
 WITH gdp_cte AS (
@@ -505,7 +505,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Czech Republic', 'Slovakia')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -519,9 +519,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Czech Republic'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -540,7 +540,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 union all
 WITH gdp_cte AS (
@@ -551,7 +551,7 @@ WITH gdp_cte AS (
     FROM economies
     WHERE country IN ('Hungary', 'Slovakia')
       AND year > 2000
-), lol AS (
+), first AS (
     SELECT 
         a.year,
         a.country AS country_a,
@@ -565,9 +565,9 @@ WITH gdp_cte AS (
        AND a.country <> b.country
 ), final AS (
     SELECT *
-    FROM lol
+    FROM first
     WHERE country_a = 'Slovakia'
-), notyet AS (
+), exodus AS (
     SELECT *,
            LAG(difference) OVER (ORDER BY year) AS previous_year
     FROM final
@@ -586,7 +586,7 @@ SELECT
         / NULLIF(previous_year, 0) * 100,
         2
     ) AS percent_diff
-FROM notyet
+FROM exodus
 ORDER BY year;
 
 /*Dotaz nefunguje, pretože:
